@@ -37,6 +37,8 @@ challenge-api/
 ### steps
 
 1. [install](https://docs.docker.com/engine/install/) docker 
+1. Clone the repository
+   - `git clone --single-branch --branch production git@github.com:zioli/challenge-api.git`
 1. postgres instalation (see [postgres instalation steps](#postgres-instalation-steps))
 1. create the dependency table (see [create the depency table](#create-the-depency-table))
 1. set up the `config.properties` file  (see [set up the config.properties file](#set-up-the-config.properties-file))

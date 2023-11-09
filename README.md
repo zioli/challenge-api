@@ -7,6 +7,7 @@ Challenge api
 challenge-api/
 ├─ app.py
 ├─ README.md
+├─ Dockerfile
 ├─ config.properties.template
 ├─ src/
 │  ├─ service/
@@ -19,13 +20,13 @@ challenge-api/
 
 
 ## Summary
+
 1. [setup the environment and run the application](#setup-the-environment-and-run-the-application)
    - [steps](#steps)
    - [steps details](#steps-details)
      - [postgres instalation steps](#postgres-instalation-steps)
      - [create the depency table](#create-the-depency-table)
      - [set up the config.properties file](#set-up-the-config.properties-file)
-     - [start the webserver](#start-the-webserver)
      - [execute automated test](#execute-automated-test)
      - [execute test coverage](#execute-test-coverage)
 1. [API documentation](#api-documentation)
@@ -34,19 +35,23 @@ challenge-api/
 
 ## setup the environment and run the application
 
+
 ### steps
 
 1. [install](https://docs.docker.com/engine/install/) docker 
-1. postgres instalation (see [postgres instalation steps](#postgres-instalation-steps))
+1. Clone the repository
+   - `git clone --single-branch --branch docker_version git@github.com:zioli/challenge-api.git`
+1. Pull and execution of the Postgres Docker image(see [postgres Docker image pull and execution](#postgres-Docker-image-pull-and-execution))
 1. create the dependency table (see [create the depency table](#create-the-depency-table))
 1. set up the `config.properties` file  (see [set up the config.properties file](#set-up-the-config.properties-file))
-1. start the webserver (see [start the webserver](#start-the-webserver))
-1. Execute automated test (see [execute automated test](#execute-automated-test))
-1. Execute test coverage (see [execute test coverage](#execute-test-coverage))
+1. Create the repository Docker image (see [Create the repository Docker image](#create-the-repository-docker-image))
+1. Execute the repository Docker image (see [Create the repository Docker image](#execute-the-repository-docker-image))
+1. Automated test execution (see [execute automated test](#execute-automated-test))
+1. Test coverage execution (see [execute test coverage](#execute-test-coverage))
 
 ### steps details
 
-#### postgres instalation steps
+#### postgres Docker image pull and execution
 
 - Get the postgres image by executing 
 
@@ -140,10 +145,36 @@ name=challenge
 
 <sup>* see [postgres instalation steps](#postgres-instalation-steps) for more details</sup>
 
-#### start the webserver 
+#### Create the repository Docker image
 
 ```
-flask run --port=8000
+docker run -it \
+    --name postgres_container \
+    --expose="5432" \
+    -e POSTGRES_USER="<user>" \
+    -e POSTGRES_PASSWORD="<password>" \
+    -e POSTGRES_DB="<database>" \
+    -d \
+    -p 5432:5432 \
+    postgres
+```
+> **where**:<BR>
+>
+> &nbsp;&nbsp;&nbsp;**<user>**: The same `user` name used when the postgres container was started<sup>*</sup>
+>
+> &nbsp;&nbsp;&nbsp;**<password>**: The same `password` used when the postgres container was started<sup>*</sup>
+>
+> &nbsp;&nbsp;&nbsp;**<database>**: The same `database` name used when the postgres container was started<sup>*</sup>
+>
+
+#### Execute the repository Docker image
+
+```
+docker run -it \
+    --name flask_container \
+    -d \
+    -p 8000:8000 \
+    flask_docker
 ```
 
 
@@ -165,7 +196,7 @@ python -m pytest -v -s --cov
 #### Uploading historic data to a table
 
 <details>
-<summary><code>GET</code> <code><b>/migration/load/historic/{source}/{database}/{table}</b></code> <code>(upload a given file or content to a database.table on postgres</code></summary>
+<summary><code>GET</code> <code><b>/migration/load/historic/{source}/{database}/{table}</b></code> (upload a given file or content to a database.table on postgres. <BR> The api will be available under <code>http://localhost:8000/</code></summary>
 
 ##### Parameters
 
@@ -198,6 +229,17 @@ https://hub.docker.com/_/postgres
 
 https://stackoverflow.com/questions/37694987/connecting-to-postgresql-in-a-docker-container-from-outside
 
+https://huzaima.io/blog/connect-localhost-docker
+
+https://www.mend.io/free-developer-tools/blog/docker-expose-port/
+
+https://medium.com/geekculture/how-to-dockerize-your-flask-application-2d0487ecefb8
+
+https://docs.pytest.org/en/6.2.x/fixture.html
+
+https://gist.github.com/azagniotov/a4b16faf0febd12efbc6c3d7370383a6#creating-newoverwriting-existing-stubs--proxy-configs
+
+https://tedboy.github.io/flask/interface_api.incoming_request_data.html#flask.Request.files
 
 
 

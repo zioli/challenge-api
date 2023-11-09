@@ -47,6 +47,11 @@ logger = get_logger()
 logger.info("Initiating websever")
 check()
 
+@app.route('/', methods=['GET'])
+def health():
+    return Response(response=json.dumps({"message" : "hello world"}), status=200, mimetype='application/json')
+    
+
 @app.route('/migration/load/historic/<source>/<database>/<table>', methods=['POST'])
 def historic_load(source, database, table):
     try:

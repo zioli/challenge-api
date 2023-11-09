@@ -1,51 +1,3 @@
-
-
-# import psycopg2
-# import pandas as pd
-# from sqlalchemy import create_engine, text
-
-# # Define the database connection parameters
-# db_params = {
-#     'host': 'localhost',
-#     'database': 'postgres',
-#     'user': 'postgres',
-#     'password': 'admin'
-# }
-
-
-# conn = psycopg2.connect(
-#     host=db_params['host'],
-#     database=db_params['database'],
-#     user=db_params['user'],
-#     password=db_params['password']
-# )
-
-# import csv
-# import psycopg2
-# conn = psycopg2.connect("host=localhost dbname=postgres user=postgres")
-# cur = conn.cursor()
-# with open('user_accounts.csv', 'r') as f:
-#     reader = csv.reader(f)
-#     next(reader) # Skip the header row.
-#     for row in reader:
-#         cur.execute(
-#         "INSERT INTO users VALUES (%s, %s, %s, %s)",
-#         row
-#     )
-# conn.commit()
-
-# import psycopg2
-# conn = psycopg2.connect("host=localhost dbname=postgres user=postgres")
-# cur = conn.cursor()
-# cur.execute("""
-#     CREATE TABLE users(
-#     id integer PRIMARY KEY,
-#     email text,
-#     name text,
-#     address text
-# )
-# """)
-
 import psycopg2 
 from psycopg2.errors import UndefinedTable
 import logging
@@ -56,8 +8,6 @@ from src.utils import env
 
 logger = logging.getLogger(env.__LOGGING_NAME__)
 
-def _health():
-    print("testing")
 
 def _get_connection(host=None, port=None, database=None, user=None, password=None):
     _host = f"{host if host else env.get_property('postgres', 'host')}"

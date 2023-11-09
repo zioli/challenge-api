@@ -2,19 +2,37 @@
 
 Challenge api
 
+# Project structure
+```
+challenge-api/
+├─ app.py
+├─ README.md
+├─ config.properties.template
+├─ src/
+│  ├─ service/
+│  ├─ utils/
+├─ test/
+│  ├─ service/
+│  ├─ utils/
+│
+```
+
+
 ## Summary
-1. [setup the environment](##setup-the-environment)
+1. [setup the environment and run the application](#setup-the-environment-and-run-the-application)
    - [steps](#steps)
    - [steps details](#steps-details)
      - [postgres instalation steps](#postgres-instalation-steps)
      - [create the depency table](#create-the-depency-table)
      - [set up the config.properties file](#set-up-the-config.properties-file)
      - [start the webserver](#start-the-webserver)
+     - [execute automated test](#execute-automated-test)
+     - [execute test coverage](#execute-test-coverage)
 1. [API documentation](#api-documentation)
 1. [few help and references used](#few-help-and-references-used)
 
 
-## setup the environment
+## setup the environment and run the application
 
 ### steps
 
@@ -23,7 +41,8 @@ Challenge api
 1. create the dependency table (see [create the depency table](#create-the-depency-table))
 1. set up the `config.properties` file  (see [set up the config.properties file](#set-up-the-config.properties-file))
 1. start the webserver (see [start the webserver](#start-the-webserver))
-
+1. Execute automated test (see [execute automated test](#execute-automated-test))
+1. Execute test coverage (see [execute test coverage](#execute-test-coverage))
 
 ### steps details
 
@@ -89,6 +108,10 @@ this example was taken from [w3school](https://www.w3schools.com/postgresql/post
 
 create or modify the `config.properties` file. It is located at the project root folder
 
+
+for convenience, it was added to the project the file `config.properties.template`. It can be renamed to `config.properties` and changed as convenient.
+
+or you can create a new file, copy and past the content bellow and modify the variables as convenient
 ```
 [postgres]
 database.dbname=<postgres database>
@@ -122,6 +145,20 @@ name=challenge
 ```
 flask run --port=8000
 ```
+
+
+#### execute automated test
+
+```
+python -m pytest -v -s
+```
+
+#### execute test coverage
+
+```
+python -m pytest -v -s --cov
+```
+
 
 ## API documentation
 

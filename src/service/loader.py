@@ -8,11 +8,12 @@ import json
 
 logger = logging.getLogger(env.__LOGGING_NAME__)
 
-import sys
+import sys 
 
 sys.path.append(".")
 
 from src.utils.exceptions import AppException
+
 
 class Loader(ABC):
     """

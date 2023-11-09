@@ -1,11 +1,5 @@
 import configparser
 
-global __LOGGING_NAME__
-global __LOGGING_LEVEL__
-global config
-
-config = configparser.RawConfigParser()
-config.read('config.properties')
 
 def get_property(scope, key, default=None):
     try:
@@ -15,8 +9,21 @@ def get_property(scope, key, default=None):
 
     return value
 
+def set_global(c=None):
+    global __LOGGING_NAME__
+    global __LOGGING_LEVEL__
+    global config
 
-__LOGGING_NAME__ = get_property('logging', 'name', "default")
-__LOGGING_LEVEL__ = get_property('logging', 'level' , "DEBUG")
+    if c is None:
+        config = configparser.RawConfigParser()
+        config.read('config.properties')
+    else:
+        config=c
 
 
+    __LOGGING_NAME__ = get_property('logging', 'name', "default")
+    __LOGGING_LEVEL__ = get_property('logging', 'level' , "DEBUG")
+
+
+
+set_global()
